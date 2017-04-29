@@ -1,0 +1,25 @@
+{
+  "name": "MITM-Server",
+  "version": "0.1.0",
+  "description": "A scraping and MITM server",
+  "main": "node.js",
+  "scripts": {
+    "start": "node node.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "request": "^1.1.1",
+    "body-parser": "^1.1.1",
+    "cheerio": "^0.22.0",
+    "website-scraper": "^2.2.2"
+  },
+  "engines": {
+    "node": "4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/salevin/mitm-spoof"
+  },
+  "author": ["Samuel Levin", "Nico Judge"],
+  "license": "None"
+}

