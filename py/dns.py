@@ -14,7 +14,7 @@ class Dns:
         self.queue = NetfilterQueue()
 
     def setup(self):
-        os.system('iptables -t nat -A PREROUTING -p udp'
+        os.system('iptables -t nat -A PREROUTING -p udp '
                   + '--dport 53 -j NFQUEUE --queue-num 1')
 
         def callback(packet):
